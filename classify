@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# @author : shivanshu
+# @description: group songs into folders
+
+FILE="$1"
+DATA=$(mid3v2 -l "$FILE")
+SONG_NAME=$(echo "$DATA" | grep ^TIT2= | cut -c 6- | sed 's|[:/#$*&@"?%]||g' | sed "s|'||g")
+SONG_ARTIST=$(echo "$DATA" | grep ^TPE1= | cut -c 6- | sed 's|[:/#$*&@"?%]||g' | sed "s|'||g")
+
+if [ -n "$SONG_ARTIST" ]; then
+    mkdir "$SONG_ARTIST"
+    mv "$FILE" "$SONG_ARTIST/$FILE"
+fi
